@@ -1,26 +1,23 @@
-import { Component } from 'react';
-import { SpanList, SpanBtn } from './ContactList.styled';
-class ContactList extends Component {
-  render() {
-    const { deleteUse, filteredContacts, filter } = this.props;
-    return (
-      <ul style={{ display: filter ? 'block' : 'none' }}>
-        {filteredContacts.map(
-          //Добовляем только в случае если есть name and number
-          ({ name, id, number }) =>
-            name &&
-            number && (
-              <li key={id}>
-                <SpanList>
-                  {`--> ${name}: ${number}`}
-                  <SpanBtn onClick={() => deleteUse(id)}>Delete</SpanBtn>
-                </SpanList>
-              </li>
-            )
-        )}
-      </ul>
-    );
-  }
-}
+import PropTypes from 'prop-types';
+import { Item, Name, Button, Number } from './ContactList.styled';
+import { FaGenderless } from 'react-icons/fa';
 
-export default ContactList;
+export const ContactList = ({ findContact, deleteUser }) => {
+  return (
+    <ul>
+      {findContact.map(({ name, number, id }) => (
+        <Item key={id}>
+          <FaGenderless />
+          <Name>{name}:</Name>
+          <Number>{number}</Number>
+          <Button onClick={() => deleteUser(id)}>Delete</Button>
+        </Item>
+      ))}
+    </ul>
+  );
+};
+
+ContactList.propTypes = {
+  findContact: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+};

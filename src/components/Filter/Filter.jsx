@@ -1,15 +1,15 @@
-import { Component } from 'react';
-import { FormLabel ,FormFind ,FormInput} from './Filter.styled';
-class Filter extends Component {
-  render() {
-    const { filterData } = this.props;
-    return (
-      <FormFind>
-        <FormLabel htmlFor="filter">Find Contatcs by name</FormLabel>
-        <FormInput type="text" name="filter" onChange={filterData} />
-      </FormFind>
-    );
-  }
-}
+import PropTypes from 'prop-types';
 
-export default Filter;
+export const Filter = ({ getNameOrNumber }) => {
+  return (
+    <label>
+      Find contacts by name
+      <br />
+      <input type="text" onKeyDown={getNameOrNumber} />
+    </label>
+  );
+};
+
+Filter.propTypes = {
+  getNameOrNumber: PropTypes.func.isRequired,
+};
