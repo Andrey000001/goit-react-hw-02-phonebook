@@ -26,38 +26,31 @@ class App extends Component {
     if (contacts.some(({ name: currentNames }) => currentNames === name)) {
       alert('Contact with this name already exists');
     } else {
-      const resultName = name
-        .split(' ')
-        .map(item => item.charAt(0).toUpperCase() + item.slice(1))
-        .join(' ');
-      console.log(resultName);
       this.setState(prevState => ({
-        contacts: [
-          ...prevState.contacts,
-          { id, name: resultName, ...allInfoUser },
-        ],
+        contacts: [...prevState.contacts, { id, ...allInfoUser }],
       }));
     }
   };
-  getNameOrNumber = e => {
-    const getUser = e.target.value.toLowerCase().trim();
-    this.setState({ filter: getUser });
+
+  getNameOrNumber = gotName => {
+    this.setState({ filter: gotName });
   };
 
+  filterContactList = () => {
+    const { filter, contacts } = this.state;
+    return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
+  };
   render() {
-    const { contacts, filter } = this.state;
-    const findContact = contacts.filter(({ name, number }) => {
-      const lowerCaseName = name.toLowerCase();
-      const lowerCaseNumber = number.toLowerCase();
-      return lowerCaseName.includes(filter) || lowerCaseNumber.includes(filter);
-    });
     return (
       <Container>
         <h1>Phonebook</h1>
         <ContactForm addUser={this.addUser} />
         <h2>Contacts</h2>
         <Filter getNameOrNumber={this.getNameOrNumber} />
-        <ContactList findContact={findContact} deleteUser={this.deleteUser} />
+        <ContactList
+          dataContact={this.filterContactList()}
+          deleteUser={this.deleteUser}
+        />
       </Container>
     );
   }
