@@ -41,12 +41,13 @@ class App extends Component {
     return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
   };
   render() {
+    const { filter } = this.state;
     return (
       <Container>
         <h1>Phonebook</h1>
         <ContactForm addUser={this.addUser} />
         <h2>Contacts</h2>
-        <Filter getNameOrNumber={this.getNameOrNumber} />
+        <Filter getNameOrNumber={this.getNameOrNumber} value={filter} />
         <ContactList
           dataContact={this.filterContactList()}
           deleteUser={this.deleteUser}
